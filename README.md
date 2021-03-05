@@ -413,7 +413,7 @@ set global connect_timeout=60;
 ```
 -查看WEB目录日志的绝对路径
 ```
-mysql>show variables like "%general
+mysql>show variables like "%general%";
 ```
 
 ## 命令及后门相关
