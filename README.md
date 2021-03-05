@@ -409,7 +409,11 @@ set GLOBAL interactive_timeout=2880000;
 
 set GLOBAL wait_timeout=2880000;
 
-set global connect_timeout=280000;
+set global connect_timeout=60;
+```
+-查看WEB目录日志的绝对路径
+```
+mysql>show variables like "%general
 ```
 
 ## 命令及后门相关
