@@ -403,6 +403,12 @@ FLUSH   PRIVILEGES;
 grant all privileges on 库名.表名 to '用户名'@'IP地址' identified by '密码' with grant option;
 flush privileges;
 ```
+-返回2013错误设置timeout变量值
+```
+set GLOBAL interactive_timeout=2880000;
+
+set GLOBAL wait_timeout=2880000;
+```
 
 ## 命令及后门相关
 > **后门命令及常用渗透命令** 
