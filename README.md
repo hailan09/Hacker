@@ -408,6 +408,8 @@ flush privileges;
 set GLOBAL interactive_timeout=2880000;
 
 set GLOBAL wait_timeout=2880000;
+
+set global connect_timeout=280000;
 ```
 
 ## 命令及后门相关
