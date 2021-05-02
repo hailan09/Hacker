@@ -242,4 +242,4 @@ if __name__ == '__main__':
     print("密文:", end='')
     print(cc.hex())         # 以bytes输出
     last = cc.hex()
-    print("输出:"+h+last[0:12])
+    print("输出:"+h+last[1:9])
