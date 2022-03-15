@@ -5,6 +5,9 @@
 # blog:https://www.vhcffh.com
 #
 # Distributed under terms of the MIT license.
+
+import getpass
+
 IP = (58, 50, 42, 34, 26, 18, 10, 2,
       60, 52, 44, 36, 28, 20, 12, 4,
       62, 54, 46, 38, 30, 22, 14, 6,
@@ -229,17 +232,54 @@ def print_bytes_hex(m):
 #messages 不足64bits的倍数 补零
 
 if __name__ == '__main__':
-    h = ''
-    print("请输入明文：")
-    url = input()
-    m = bytes(url,'utf-8')  # 明文
-    print("请输入密钥：")
-    key = input()
-    k = bytes(key,'utf-8')  # 密钥
-    a = DES(k)
-    cc = a.Encrypt(m)
-    #mm = a.Decrypt(cc)     # 解密
-    print("密文:", end='')
-    print(cc.hex())         # 以bytes输出
-    last = cc.hex()
-    print("输出:"+h+last[-8:])
+    #des双重加密混淆
+    
+    while True:
+    
+        input_plaintext = input("请输入明文：")
+        
+        if "exit" in input_plaintext:
+            break
+        
+        one_string = ""  #特征字符
+        
+        get_pwd = getpass.getpass("请输入密钥：")
+        
+        #第一重加密
+       
+        m = bytes(one_string+input_plaintext+get_pwd[-8:],'utf-8')  # 将输入的明文与特征字符和后8位密钥组合一起转换为bytest类型的明文
+          
+       
+        passwd = bytes(get_pwd,'utf-8')  # 将输入的密钥转换为bytes类型
+        
+        
+        des_object = DES(passwd) #将传入的密钥实列化为DES对象
+        
+        des_encrypt = des_object.Encrypt(m)# 传入密钥进行加密生成密文，返回bytes类型
+        
+
+        ciphertext = des_encrypt.hex()  #将des密文对象转换为16进制数字
+        
+        ciphertext12 = ciphertext[-12:]  #然后取后12位数密文做为第二重des加密的部分明文。
+        
+        
+        #第二重加密
+        
+        two_string = "" #特征字符
+
+        two_plaintext = bytes(two_string+ciphertext12,'utf-8') #特征码+第一重密文的后12位数转换为bytes类型的明文
+
+        two_passwd = bytes(ciphertext12+get_pwd[-8:],'utf-8') #第二重密钥由第一重后12位密文+第一重后8位密钥构成,转为bytes类型
+        
+        tow_des_object = DES(two_passwd) #再次调用des类传入密钥生成对象
+        
+        tow_des_encrypt = tow_des_object.Encrypt(two_passwd) # 传入密钥进行加密生成密文，返回bytes类型
+        
+        tow_ciphertext = tow_des_encrypt.hex() #将加密后的密文转为16进制
+        
+        print("输出："+"特征字符"+tow_ciphertext[-13:])
+        
+        print("\n\r"+"设置密码的话请输入两次！")
+        
+        print("\n\r\n\r")
+
